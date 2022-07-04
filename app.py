@@ -1,28 +1,30 @@
 #!/usr/bin/env python3
-import os
 
 import aws_cdk as cdk
 
-from cdk_template_v2.cdk_template_v2_stack import CdkTemplateV2Stack
-
+from cdk_template_v2.stack.network_stack import NetworkStack, NetworkContext
+from cdk_template_v2.lib.base import ContextLoader
 
 app = cdk.App()
-CdkTemplateV2Stack(app, "CdkTemplateV2Stack",
-    # If you don't specify 'env', this stack will be environment-agnostic.
-    # Account/Region-dependent features and context lookups will not work,
-    # but a single synthesized template can be deployed anywhere.
+default_context = app.node.try_get_context("default")
+overwrite_context = app.node.try_get_context("overwrite")
+stage = app.node.try_get_context("stage")
 
-    # Uncomment the next line to specialize this stack for the AWS Account
-    # and Region that are implied by the current CLI configuration.
+level = 0
+if stage:
+    level = len(stage.split("."))
 
-    #env=cdk.Environment(account=os.getenv('CDK_DEFAULT_ACCOUNT'), region=os.getenv('CDK_DEFAULT_REGION')),
+if level >= 1:
+    network_context = ContextLoader(
+        default_context=default_context,
+        overwrite_context=overwrite_context,
+        stage=stage
+    ).get_context(NetworkContext)
+    NetworkStack(app, network_context)
 
-    # Uncomment the next line if you know exactly what Account and Region you
-    # want to deploy the stack to. */
+if level >= 2:
+    pass
 
-    #env=cdk.Environment(account='123456789012', region='us-east-1'),
-
-    # For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html
-    )
+#CdkTemplateStack(app, "cdk-template")
 
 app.synth()

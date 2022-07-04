@@ -15,6 +15,63 @@
     ]
   },
   "context": {
+    "default": {
+      "aws_account_id": "xxxxxxxxxxxx",
+      "aws_region": "ap-northeast-1",
+      "app_name": "sample",
+      "termination_protection": false,
+      "tags": {
+        "Billing Destination": "SAMPLE",
+        "SYS_STACK_APP": "SAMPLE"
+      },
+
+
+      "vpc_id": "vpc-xxxxxxxxxxxxxxxxx",
+      "subnet_ids": [],
+      "http_proxy": "http://xxx.jp:7080",
+      "https_proxy": "http://xxx.jp:7080",
+      "no_proxy": [],
+      "cidr_internal_network": "10.0.0.0/8",
+
+
+      "network_vpc_cidr": "10.155.0.0/16",
+      "network_public_subnets": [
+        {
+          "cidr": "10.155.10.0/24",
+          "az": "ap-northeast-1a"
+        },
+        {
+          "cidr": "10.155.11.0/24",
+          "az": "ap-northeast-1c"
+        }
+      ],
+      "network_private_subnets": [
+        {
+          "cidr": "10.155.30.0/24",
+          "az": "ap-northeast-1a",
+          "ngw_idx": 0
+        },
+        {
+          "cidr": "10.155.31.0/24",
+          "az": "ap-northeast-1c",
+          "ngw_idx": 1
+        }
+      ]
+    },
+    "overwrite": {
+      "dev": {
+        "aws_account_id": "",
+        "aws_region": "",
+        "http_proxy": "",
+        "https_proxy": ""
+      },
+      "dev.line1": {
+      },
+      "stg": {
+      },
+      "prd": {
+      }
+    },
     "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": true,
     "@aws-cdk/core:stackRelativeExports": true,
     "@aws-cdk/aws-rds:lowercaseDbIdentifier": true,
